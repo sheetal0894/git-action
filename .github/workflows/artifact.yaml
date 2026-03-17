@@ -1,0 +1,41 @@
+name : run node application
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+      - name : install dependencies and run testsy
+        run: npm install
+      - name : run test cases        
+        run: npm ci
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+      - name : build node application
+        run: |
+          npm run build
+          ls -la dist
+      - name : upload artifact
+        uses: actions/upload-artifacts@v3
+        with:
+          name: node-application
+          path: dist
+    deploy:
+      runs-on: ubuntu-latest
+      needs: build
+      steps:
+        - name : download artifact
+          uses: actions/download-artifacts@v3
+          with:
+            name: node-application
+        - name : deploy node application
+          run: |
+            ls -la node-application
+            # Add your deployment commands here, e.g., scp, rsync, etc.
+
+     
