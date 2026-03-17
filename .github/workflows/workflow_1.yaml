@@ -9,7 +9,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '20'
-      - name : test node application
       - name : install dependencies and run testsy
         run: npm install
       - name : run test cases        
