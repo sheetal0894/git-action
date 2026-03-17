@@ -16,6 +16,6 @@ jobs:
       - name : build node application
         run: |
           npm run build
-          ls -la 
+          ls -la dist
       - name : run node application
         run: node dist/index.js
